@@ -1,0 +1,77 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+.container {
+    position: relative;
+    border: 4px solid black;
+    margin: auto;
+    width: 500px;
+    height: 500px;
+    display: grid;
+    grid-template-columns: 4fr 4fr 4fr 4fr;
+    grid-template-rows: 4fr 4fr 4fr 4fr 4fr 4fr;
+    grid-template-areas: "display display display display"
+                        "clear clear del mult"
+                        "t1 t2 t3 t4"
+                        "m1 m2 m3 m4"
+                        "b1 b2 b3 b4"
+                        "zero zero zero equal";
+}
+.display{
+    grid-area: display;
+    text-align: right;
+    margin: auto 0 auto 0;
+    font-size: 50px;
+}
+.btn-7{
+    grid-area: t1;
+}
+.btn-8{
+    grid-area: t2;
+}
+.btn-9{
+    grid-area: t3;
+}
+.btn-mult{
+    grid-area:  mult;
+}
+.btn-4{
+    grid-area: m1;
+}
+.btn-5{
+    grid-area: m2;
+}
+.btn-6{
+    grid-area: m3;
+}
+.btn-div{
+    grid-area: t4;
+}
+.btn-1{
+    grid-area: b1;
+}
+.btn-2{
+    grid-area: b2;
+}
+.btn-3{
+    grid-area: b3;
+}
+.btn-add{
+grid-area: b4;
+}
+.btn-0{
+    grid-area: zero;
+}
+.btn-clear{
+grid-area:clear;
+}
+.btn-sub{
+    grid-area: m4;
+}
+.btn-equal{
+    grid-area: equal;
+}
+.btn-del{
+    grid-area: del;
+}
