@@ -21,6 +21,7 @@ const button = document.querySelectorAll("button[type=button]");
 for (let i = 0; i < button.length; i++) {
   button[i].addEventListener("click", toDisplay);
 }
+//variables
 let operator = "";
 let firstNum = "";
 let seconNum = "";
