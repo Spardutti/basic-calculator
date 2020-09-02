@@ -14,64 +14,42 @@ function divide(a, b) {
 function operate(operator, num1, num2) {
   return operator(num1, num2);
 }
-//get the display and the array of btns
-const display = document.querySelector(".display");
-const button = document.querySelectorAll("button[type=button]");
-//assing listener to all butons
-for (let i = 0; i < button.length; i++) {
-  button[i].addEventListener("click", toDisplay);
-}
 //variables
+const display = document.querySelector(".display");
+const button = document.querySelectorAll(".numBtn");
+const operators = document.querySelectorAll(".opBtn");
+
+display.value = "";
 let operator = "";
 let firstNum = "";
 let seconNum = "";
-//display numbers on display
-function toDisplay(btn) {
+
+//assing listener to all numButtons 0 - 9
+button.forEach((btn) => {
+  btn.addEventListener("click", displayNum);
+});
+//assing listener to operators + * - / =
+operators.forEach((op) => {
+  op.addEventListener("click", assingOp);
+});
+//display numbers on screen
+function displayNum(btn) {
   let value = btn.target.value;
-  if (
-    value == "0" ||
-    value == "1" ||
-    value == "2" ||
-    value == "3" ||
-    value == "4" ||
-    value == "5" ||
-    value == "6" ||
-    value == "7" ||
-    value == "8" ||
-    value == "9"
-  ) {
-    display.value += value;
-  } if (value == "X") {
-    operator = "X";
+  display.value += value;
+}
+//save display to firstnumber and add  operator
+function assingOp(op) {
+  if (operator == "") {
+    operator = op.target.value;
+    firstNum = display.value;
     display.value = "";
-  } if (value == "/") {
-    operator = "/";
-    display.value = "";
-  } if (value == "+") {
-    operator = "+";
-    display.value = "";
-  } if (value == "-") {
-    operator = "-";
-    display.value = "";
-  } 
-  if (operator === "") {
-    firstNum = parseInt(display.value);
-    console.log(firstNum);
+  } if (operator != "") {
+    seconNum = display.value;
+    if (operator == "X") {
+      console.log("wrong")
+      display.value = operate(multiply, firstNum, seconNum)
+    }
   }
-  if (value == "=" && operator == "X") {
-    display.value = operate(multiply, firstNum, seconNum);
-  }
-  if (value == "=" && operator == "/") {
-    display.value = operate(divide, firstNum, seconNum);
-  }
-  if (value == "=" && operator == "+") {
-    display.value = operate(add, firstNum, seconNum);
-  }
-  if (value == "=" && operator == "-") {
-    display.value = operate(subtract, firstNum, seconNum);
-  } else {
-    seconNum = parseInt(display.value);
-    console.log(seconNum);
-  }
+  
 }
 
