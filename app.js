@@ -1,28 +1,14 @@
-//Basic functions
-function add(a, b) {
-  return a + b;
-}
-function subtract(a, b) {
-  return a - b;
-}
-function multiply(a, b) {
-  return a * b;
-}
-function divide(a, b) {
-  return a / b;
-}
-function operate(operator, num1, num2) {
-  return operator(num1, num2);
-}
 //variables
 const display = document.querySelector(".display");
 const button = document.querySelectorAll(".numBtn");
 const operators = document.querySelectorAll(".opBtn");
 
-display.value = "";
+let num1 = "";
+let num2 = "";
+let operatorActive = false;
 let operator = "";
-let firstNum = "";
-let seconNum = "";
+let total = 0;
+let calculationDone = false;
 
 //assing listener to all numButtons 0 - 9
 button.forEach((btn) => {
@@ -30,26 +16,45 @@ button.forEach((btn) => {
 });
 //assing listener to operators + * - / =
 operators.forEach((op) => {
-  op.addEventListener("click", assingOp);
+  op.addEventListener("click", displayOperator);
 });
-//display numbers on screen
-function displayNum(btn) {
-  let value = btn.target.value;
-  display.value += value;
+
+function displayNum(num) {
+  num = num.target.value;
+  if (!operatorActive && !calculationDone) {
+    display.value += num;
+    num1 = parseInt(display.value);
+  }
+  if (operatorActive) {
+    display.value += num;
+    num2 = parseInt(display.value);
+  }
+ 
+  console.log(num1, num2, operator);
 }
-//save display to firstnumber and add  operator
-function assingOp(op) {
-  if (operator == "") {
-    operator = op.target.value;
-    firstNum = display.value;
-    display.value = "";
-  } if (operator != "") {
-    seconNum = display.value;
-    if (operator == "X") {
-      console.log("wrong")
-      display.value = operate(multiply, firstNum, seconNum)
-    }
+
+function displayOperator(oper) {
+  oper = oper.target.value;
+  operatorActive = true;
+  display.value = "";
+  if (num1 && num2) {
+    display.value = calculate(num1, oper, num2)
+    operatorActive = true;
+    calculationDone = true;
+  }
+  if (oper === "=") {
+    display.value = total;
   }
   
 }
 
+function calculate(value1, oper, value2) {
+  switch (oper) {
+    case "+":
+      total = value1 + value2;
+      break;
+    default:
+      return false;
+  }
+  return total;
+}
