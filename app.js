@@ -35,7 +35,7 @@ dec.addEventListener("click", addDecimal);
 //calculate operation when hitting =
 function equalCal() {
   if (!num1 && !num2 && !decimal) {
-    display.value = ""
+    display.value = "";
   }
   if (!num1 && !decimal) {
     num1 = display.value;
@@ -44,7 +44,8 @@ function equalCal() {
   if (num2 && !decimal) {
     num2 = parseFloat(display.value);
     display.value = parseFloat(calculate(num1, operator, num2));
-  } if(num1 && num2 && decimal) {
+  }
+  if (num1 && num2 && decimal) {
     display.value = parseFloat(calculate(num1, operator, num2)).toFixed(2);
     console.log(decimal);
   }
@@ -75,7 +76,7 @@ function deleteN(str) {
     num2 = parseFloat(str);
     display.value = num2;
   }
-  if (str.length <= 1) {
+  if (str.length < 1) {
     display.value = "";
     num1 = 0;
     console.log("wha yo erasi");
@@ -106,7 +107,6 @@ function displayNum(num) {
     display.value += num;
     num2 = parseFloat(display.value);
   }
-  console.log(num1, operator, num2);
 }
 //check for decimal input and add a "." if there wasnt
 function addDecimal(val) {
@@ -139,9 +139,6 @@ function displayOperator(oper) {
       operator = oper.target.value;
     }
   }
-  //if no operator, set it to true, get the operator and reset display.
-
-  console.log(operator, operatorActive);
 }
 //do the magic math
 function calculate(value1, oper, value2) {
@@ -155,7 +152,11 @@ function calculate(value1, oper, value2) {
       total = value1 * value2;
       calculationDone = true;
       display.value = total;
-
+      break;
+    case "*":
+      total = value1 * value2;
+      calculationDone = true;
+      display.value = total;
       break;
     case "-":
       total = value1 - value2;
@@ -174,4 +175,67 @@ function calculate(value1, oper, value2) {
       break;
   }
   return total;
+}
+window.addEventListener("keypress", keyPress);
+//listen for keyboard number press
+function keyPress(key) {
+  key = key.keyCode;
+  if (key >= 48 && key <= 57) {
+    key = String.fromCharCode(key);
+    if (!operatorActive) {
+      display.value += key;
+      num1 = parseFloat(display.value);
+    }
+    if (operatorActive && !calculationDone) {
+      display.value += key;
+      num2 = parseFloat(display.value);
+    }
+    if (calculationDone) {
+      num1 = parseFloat(display.value);
+      num2 = "";
+      calculationDone = false;
+      if (num2 == "") {
+        display.value = "";
+      }
+      display.value += key;
+      num2 = parseFloat(display.value);
+    }
+  }
+  if (key == "43" || key == "45" || key == "42" || key == "47") {
+    key = String.fromCharCode(key);
+    keyPressOperator(key);
+  }
+  if (key == "13") {
+    equalCal();
+  }
+  if (key == "46") {
+    key = String.fromCharCode(key);
+    if (display.value.indexOf(key) == -1) {
+      display.value += key;
+      decimal = true;
+    }
+  }
+}
+//listen for operator on keyboard
+function keyPressOperator(key) {
+  if (!num1) {
+    alert("Need a first number");
+  } else {
+    if (!operatorActive) {
+      operator = key;
+      operatorActive = true;
+      display.value = "";
+    }
+    if (num1 && num2 && !calculationDone) {
+      if (decimal) {
+        display.value = parseFloat(calculate(num1, operator, num2)).toFixed(2);
+        decimal = true;
+      } else {
+        parseFloat(calculate(num1, operator, num2));
+      }
+    }
+    if (calculationDone) {
+      operator = key;
+    }
+  }
 }
