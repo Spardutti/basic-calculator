@@ -47,7 +47,6 @@ function equalCal() {
   }
   if (num1 && num2 && decimal) {
     display.value = parseFloat(calculate(num1, operator, num2)).toFixed(2);
-    console.log(decimal);
   }
   operator = false;
 }
@@ -176,12 +175,11 @@ function calculate(value1, oper, value2) {
   }
   return total;
 }
-window.addEventListener("keypress", keyPress);
+window.addEventListener("keydown", keyPress);
 //listen for keyboard number press
 function keyPress(key) {
-  key = key.keyCode;
-  if (key >= 48 && key <= 57) {
-    key = String.fromCharCode(key);
+  key = key.key;
+  if (key >= 0 && key <= 9) {
     if (!operatorActive) {
       display.value += key;
       num1 = parseFloat(display.value);
@@ -201,19 +199,23 @@ function keyPress(key) {
       num2 = parseFloat(display.value);
     }
   }
-  if (key == "43" || key == "45" || key == "42" || key == "47") {
-    key = String.fromCharCode(key);
+  if (key == "+" || key == "-" || key == "*" || key == "/") {
     keyPressOperator(key);
   }
-  if (key == "13") {
+  if (key == "Enter") {
     equalCal();
   }
-  if (key == "46") {
-    key = String.fromCharCode(key);
+  if (key == ".") {
     if (display.value.indexOf(key) == -1) {
       display.value += key;
       decimal = true;
     }
+  }
+  if (key == "Escape") {
+    clear()
+  }
+  if (key == "Backspace") {
+    deleteN()
   }
 }
 //listen for operator on keyboard
@@ -239,3 +241,5 @@ function keyPressOperator(key) {
     }
   }
 }
+
+
